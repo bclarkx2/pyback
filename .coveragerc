@@ -1,0 +1,13 @@
+[run]
+omit =
+    *__init__.py
+    */utests/*
+
+[report]
+sort = Cover
+omit =
+    *__init__.py
+    */utests/*
+
+[html]
+directory = html_coverage_report

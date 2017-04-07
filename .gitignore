@@ -1,2 +1,4 @@
 __pycache__
 .pyc
+.coverage
+html_coverage_report

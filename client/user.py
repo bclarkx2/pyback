@@ -3,8 +3,15 @@
 # Imports                                                                    #
 ##############################################################################
 
+from client import savelocation
+from client import datalocation
 
-class User(object):
+
+##############################################################################
+# Base class                                                                 #
+##############################################################################
+
+class User(object):  # pragma: no cover
 
     def __init__(self,
                  id,
@@ -56,14 +63,14 @@ class SimpleUser(User):
         return self.id
 
     def get_data_locations(self):
-        return self.data_location
+        return self.data_locations
 
     def add_data_location(self, data_location):
         self.data_locations.append(data_location)
 
     def remove_data_location(self, data_location_id):
         SimpleUser.remove_by_attr(self.data_locations,
-                                  SimpleUser.get_id,
+                                  "get_id",
                                   data_location_id)
 
     def get_save_locations(self):
@@ -74,7 +81,7 @@ class SimpleUser(User):
 
     def remove_save_location(self, save_location_id):
         SimpleUser.remove_by_attr(self.save_locations,
-                                  SimpleUser.get_id,
+                                  "get_id",
                                   save_location_id)
 
 ##############################################################################
@@ -89,7 +96,8 @@ class SimpleUser(User):
 ##############################################################################
 
     @staticmethod
-    def remove_by_attr(lst, attr_method, remove_this_attr):
+    def remove_by_attr(lst, func_name, remove_this_attr):
         for item in lst:
-            if item.attr_method() == remove_this_attr:
+            attr_method = getattr(item, func_name)
+            if attr_method() == remove_this_attr:
                 lst.remove(item)
