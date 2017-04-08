@@ -1,7 +1,5 @@
 TODO list:
 
-LocalDataLocation
-Unit test: LocalDataLocation
 LocalSaveLocation
 Unit test: LocalSaveLocation
 Savable
@@ -14,3 +12,5 @@ Testing script/cron job
 
 DONE:
 Unit test for SimpleUser
+LocalDataLocation
+Unit test: LocalDataLocation
