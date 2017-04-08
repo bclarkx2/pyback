@@ -31,3 +31,9 @@ class MultiPatch(object):
     def __exit__(self, *args):
         for patcher in self.patchers:
             patcher.stop()
+
+
+class NotSerializable(object):
+
+    def __init__(self, arg):
+        self.arg = arg

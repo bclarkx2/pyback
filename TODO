@@ -1,11 +1,12 @@
 TODO list:
 
-Refactor savable
-Unit test:
-Savable
+Make DataLocation, User savable
+Unit tests for saving those
+Remove id from User, replace with name
 NaiveDataService
 Unit test: SimpleDataService
 Testing script/cron job
+Documentation
 
 
 DONE:

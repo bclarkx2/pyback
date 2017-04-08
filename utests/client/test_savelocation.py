@@ -7,12 +7,11 @@ import unittest
 import os
 import json
 
-import client
 from client.savelocation import LocalSaveLocation
 
 from unittest.mock import MagicMock, call, patch
 
-from utests import commontest
+from utests.commontest import MultiPatch, NotSerializable
 
 
 ##############################################################################
@@ -51,7 +50,7 @@ class LocalSaveLocationTestCase(unittest.TestCase):
             ("os.path", path_mock)
         ]
 
-        with commontest.MultiPatch(patches):
+        with MultiPatch(patches):
             LocalSaveLocation.safe_copy(data_path_1, save_item)
 
         shutil_args = [
@@ -72,7 +71,7 @@ class LocalSaveLocationTestCase(unittest.TestCase):
             ("os.path", path_mock)
         ]
 
-        with commontest.MultiPatch(patches):
+        with MultiPatch(patches):
             LocalSaveLocation.safe_copy(data_path_1, save_item)
 
         shutil_args = []
@@ -170,12 +169,6 @@ class LocalSaveLocationTestCase(unittest.TestCase):
 
         self.assertNotIsInstance(actual_obj, LocalSaveLocation)
         self.assertIsInstance(actual_obj, dict)
-
-
-class NotSerializable(object):
-
-    def __init__(self, arg):
-        self.arg = arg
 
 
 if __name__ == '__main__':
