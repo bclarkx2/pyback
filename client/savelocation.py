@@ -7,7 +7,7 @@ import os
 import shutil
 import json
 
-from client.savable import Savable, DefaultSavable
+from client.savable import Savable, DefaultSavable, CustomSavable
 
 
 ##############################################################################
@@ -24,7 +24,8 @@ class SaveLocation(Savable):  # pragma: no cover
 # Implementations                                                            #
 ##############################################################################
 
-class LocalSaveLocation(SaveLocation, DefaultSavable):
+# class LocalSaveLocation(SaveLocation, DefaultSavable):
+class LocalSaveLocation(SaveLocation, CustomSavable):
 
     def __init__(self, save_path):
         self.save_path = save_path
@@ -52,51 +53,28 @@ class LocalSaveLocation(SaveLocation, DefaultSavable):
     # Savable
     # # # # # # # # # # # #
 
-    def encoder(self):
-        return LocalSaveLocation.LocalSaveEncoder
+    def to_dict(self):
+        return {
+            "save_path": self.get_save_path()
+        }
 
-    def decoder(self):
-        return LocalSaveLocation.LocalSaveDecoder
+    def make_from_dict(self, input_dict):
 
-    class LocalSaveEncoder(json.JSONEncoder):
+        # must validate dict before making object
+        assert self.validate_dict(input_dict)
 
-        def default(self, o):
+        save_path = input_dict['save_path']
+        local_save = LocalSaveLocation(save_path)
 
-            if isinstance(o, LocalSaveLocation):
-                return {
-                    "save_path": o.get_save_path()
-                }
-            else:
-                return json.JSONEncoder.default(self, o)
+        return local_save
 
-    class LocalSaveDecoder(json.JSONDecoder):
+    def validate_dict(self, input_dict):
 
-        def __init__(self):
-            json.JSONDecoder.__init__(self, object_hook=self.decode)
+        has_save_path = "save_path" in input_dict
 
-        def decode(self, incoming_str):
+        is_local_save = has_save_path
 
-            incoming_dict = json.loads(incoming_str)
-
-            is_local_save = self.is_dict_local_save(incoming_dict)
-
-            if is_local_save:
-                save_path = incoming_dict['save_path']
-                local_save = LocalSaveLocation(save_path)
-                return local_save
-            else:
-                return incoming_dict
-
-        def is_dict_local_save(self, incoming_dict):
-
-            has_save_path = "save_path" in incoming_dict
-
-            is_local_save = has_save_path
-
-            return is_local_save
-
-
-
+        return is_local_save
 
     #
     # Static helpers
