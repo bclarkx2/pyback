@@ -10,7 +10,7 @@ import json
 # Base class                                                                 #
 ##############################################################################
 
-class Savable(object):
+class Savable(object):  # pragma: no cover
     """Implement Savable to ensure an object can be JSON saved
 
     Classes extending Savable must return a JSON Encoder and Decoder. This
@@ -25,11 +25,11 @@ class Savable(object):
         raise NotImplementedError("Implement Me!")
 
 
-class DefaultSavable(Savable):
+class DefaultSavable(Savable):  # pragma: no cover
     """Default implementation of Savable
 
-    Extend DefaultSavable to make a class Savable without having to define a custom
-    JSON encoder. It will just return the default json encoder/decoder
+    Extend DefaultSavable to make a class Savable without having to define a
+    custom JSON encoder. It will just return the default json encoder/decoder
     """
 
     def encoder(self):
