@@ -16,7 +16,7 @@ from client.savable import Savable, DefaultSavable, CustomSavable
 
 class SaveLocation(Savable):  # pragma: no cover
 
-    def __init__(self):
+    def __init__(self, id=None):
         raise NotImplementedError("Implement Me!")
 
 
@@ -27,12 +27,16 @@ class SaveLocation(Savable):  # pragma: no cover
 # class LocalSaveLocation(SaveLocation, DefaultSavable):
 class LocalSaveLocation(SaveLocation, CustomSavable):
 
-    def __init__(self, save_path):
+    def __init__(self, id=None, save_path=""):
+        self.id = id
         self.save_path = save_path
 
     #
     # Get/set
     # # # # # # # # # # # #
+
+    def get_id(self):
+        return self.id
 
     def get_save_path(self):
         return self.save_path
@@ -55,24 +59,30 @@ class LocalSaveLocation(SaveLocation, CustomSavable):
 
     def to_dict(self):
         return {
+            "id": self.get_id(),
             "save_path": self.get_save_path()
         }
 
-    def make_from_dict(self, input_dict):
+    @staticmethod
+    def make_from_dict(input_dict):
 
         # must validate dict before making object
-        assert self.validate_dict(input_dict)
+        assert LocalSaveLocation.validate_dict(input_dict)
 
+        id = input_dict['id']
         save_path = input_dict['save_path']
-        local_save = LocalSaveLocation(save_path)
+        local_save = LocalSaveLocation(id, save_path)
 
         return local_save
 
-    def validate_dict(self, input_dict):
+    @staticmethod
+    def validate_dict(input_dict):
 
-        has_save_path = "save_path" in input_dict
+        required_fields = ['id', 'save_path']
 
-        is_local_save = has_save_path
+        has_fields = all(field in input_dict for field in required_fields)
+
+        is_local_save = has_fields
 
         return is_local_save
 

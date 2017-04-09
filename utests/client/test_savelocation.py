@@ -18,6 +18,7 @@ from utests.commontest import MultiPatch, NotSerializable
 # Constants                                                                  #
 ##############################################################################
 
+id_1 = 11
 name_1 = "name_1"
 save_path_1 = "/some/save/path"
 save_item = os.path.join(save_path_1, name_1)
@@ -32,10 +33,11 @@ data_path_1 = "/some/data/path/pre_save_name_1"
 class LocalSaveLocationTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.save_location_1 = LocalSaveLocation(save_path_1)
+        self.save_location_1 = LocalSaveLocation(id_1, save_path_1)
 
     def test_getters_and_setters(self):
 
+        self.assertEqual(id_1, self.save_location_1.get_id())
         self.assertEqual(save_path_1, self.save_location_1.get_save_path())
 
     def test_safe_copy_valid_dir(self):
@@ -102,6 +104,7 @@ class LocalSaveLocationTestCase(unittest.TestCase):
         actual_json_str = json.dumps(self.save_location_1, cls=encoder)
 
         expected_json_str = json.dumps({
+            "id": id_1,
             "save_path": save_path_1
         })
 
@@ -137,6 +140,7 @@ class LocalSaveLocationTestCase(unittest.TestCase):
         decoder = self.save_location_1.decoder()
 
         input_dict = {
+            "id": id_1,
             "save_path": "/incoming/path"
         }
         input_json_obj = json.dumps(input_dict)
@@ -144,6 +148,7 @@ class LocalSaveLocationTestCase(unittest.TestCase):
         actual_obj = json.loads(input_json_obj, cls=decoder)
 
         self.assertIsInstance(actual_obj, LocalSaveLocation)
+        self.assertEqual(id_1, actual_obj.get_id())
         self.assertEqual("/incoming/path", actual_obj.get_save_path())
 
     def test_decode_non_local_save_nonserializable(self):

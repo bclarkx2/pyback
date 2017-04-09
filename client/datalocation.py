@@ -12,7 +12,10 @@ from client.savable import Savable, CustomSavable
 
 class DataLocation(Savable):  # pragma: no cover
 
-    def __init__(self, name="", path=""):
+    def __init__(self, id=None, name="", path=""):
+        raise NotImplementedError("Implement Me!")
+
+    def get_id():
         raise NotImplementedError("Implement Me!")
 
     def get_name():
@@ -28,13 +31,17 @@ class DataLocation(Savable):  # pragma: no cover
 
 class SimpleDataLocation(DataLocation, CustomSavable):
 
-    def __init__(self, name="", path=""):
+    def __init__(self, id=None, name="", path=""):
+        self.id = id
         self.name = name
         self.path = path
 
     #
     # Get/set
     # # # # # # # # # # # #
+
+    def get_id(self):
+        return self.id
 
     def get_name(self):
         return self.name
@@ -48,25 +55,29 @@ class SimpleDataLocation(DataLocation, CustomSavable):
 
     def to_dict(self):
         return {
+            "id": self.get_id(),
             "name": self.get_name(),
             "path": self.get_path()
         }
 
-    def make_from_dict(self, input_dict):
+    @staticmethod
+    def make_from_dict(input_dict):
 
         # must validate dict before making object
-        assert self.validate_dict(input_dict)
+        assert SimpleDataLocation.validate_dict(input_dict)
 
+        id = input_dict['id']
         name = input_dict['name']
         path = input_dict['path']
 
-        simple_data_location = SimpleDataLocation(name, path)
+        simple_data_location = SimpleDataLocation(id, name, path)
 
         return simple_data_location
 
-    def validate_dict(self, input_dict):
+    @staticmethod
+    def validate_dict(input_dict):
 
-        required_fields = ['name', 'path']
+        required_fields = ['id', 'name', 'path']
 
         has_req_fields = all(field in input_dict for field in required_fields)
 

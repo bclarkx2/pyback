@@ -4,11 +4,14 @@
 ##############################################################################
 
 import unittest
+import json
 
 from unittest.mock import MagicMock
 
 import client
 from client.user import SimpleUser
+from client.savelocation import LocalSaveLocation
+from client.datalocation import SimpleDataLocation
 
 from utests import commontest
 
@@ -65,6 +68,41 @@ class SimpleUserTestCase(unittest.TestCase):
     def test_backup(self):
 
         self.empty_user.backup(None, None)
+
+    #
+    # Savable
+    # # # # # # # # # # # #
+
+    def test_basic_savable(self):
+
+        local_save_1 = LocalSaveLocation(22, "/a/save/path")
+
+        simple_data_1 = SimpleDataLocation(33, "a_data_name", "/a/data/path")
+
+        simple_user = SimpleUser(11, [local_save_1], [simple_data_1])
+
+        encoder = simple_user.encoder()
+
+        actual_json_str = json.dumps(simple_user, cls=encoder)
+
+        expected_json_str = json.dumps({
+            "id": 11,
+            "save_locations": [
+                {
+                    "id": 22,
+                    "save_path": "/a/save/path"
+                }
+            ],
+            "data_locations": [
+                {
+                    "id": 33,
+                    "path": "/a/data/path",
+                    "name": "a_data_name"
+                }
+            ]
+        })
+
+        self.assertEqual(expected_json_str, actual_json_str)
 
 
 if __name__ == '__main__':

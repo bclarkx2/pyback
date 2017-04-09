@@ -14,6 +14,7 @@ from utests.commontest import NotSerializable
 # Constants                                                                  #
 ##############################################################################
 
+my_id_1 = 10
 my_name_1 = "my_name_1"
 my_path_1 = "my_path_1"
 
@@ -25,10 +26,13 @@ my_path_1 = "my_path_1"
 class SimpleDataLocationTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.data_location_1 = SimpleDataLocation(my_name_1, my_path_1)
+        self.data_location_1 = SimpleDataLocation(my_id_1,
+                                                  my_name_1,
+                                                  my_path_1)
 
     def test_getters_and_setters(self):
 
+        self.assertEqual(my_id_1, self.data_location_1.get_id())
         self.assertEqual(my_name_1, self.data_location_1.get_name())
         self.assertEqual(my_path_1, self.data_location_1.get_path())
 
@@ -43,6 +47,7 @@ class SimpleDataLocationTestCase(unittest.TestCase):
         actual_json_str = json.dumps(self.data_location_1, cls=encoder)
 
         expected_json_str = json.dumps({
+            "id": my_id_1,
             "name": my_name_1,
             "path": my_path_1
         })
@@ -79,6 +84,7 @@ class SimpleDataLocationTestCase(unittest.TestCase):
         decoder = self.data_location_1.decoder()
 
         input_dict = {
+            "id": my_id_1,
             "name": my_name_1,
             "path": my_path_1
         }

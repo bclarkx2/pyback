@@ -1,5 +1,13 @@
 TODO list:
 
+Make user work with ANY type of save location
+    -Put a save type inside of to_dict methods for all save_locations
+    -Give SaveLocation a factory method to create the appropriate
+     type of SaveLocation based on this type
+    -Give SaveLocation a factory decoder that takes a dict and turns it into
+     the appropriate subclass, perhaps using the factory method above
+    -
+    -Same for datalocation, actually
 Make DataLocation, User savable
 Unit tests for saving those
 Remove id from User, replace with name
@@ -7,6 +15,8 @@ NaiveDataService
 Unit test: SimpleDataService
 Testing script/cron job
 Documentation
+Refactor "has_required_fields" methods
+Sublime text unit test shortcut
 
 
 DONE:
