@@ -3,8 +3,6 @@
 # Imports                                                                    #
 ##############################################################################
 
-import json
-
 from client.savable import Savable, CustomSavable
 from client.savelocation import LocalSaveLocation
 from client.datalocation import SimpleDataLocation
