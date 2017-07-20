@@ -35,15 +35,17 @@ class DataService(object):
 
 
 class NaiveDataService(object):
-    """Naive implementation of the DataService contract"""
+    """Naive implementation of the DataService contract
+
+    The idea here is that each function is just done haphazardly. Later, I'll
+    come up with a more intelligent implementation.
+    """
+
     def __init__(self, config_filepath):
         super(NaiveDataService, self).__init__()
         self.config_filepath = config_filepath
 
         self.users = []
-
-    def set_config_filepath(self, config_filepath):
-        self.config_filepath = config_filepath
 
     def get_user(self, user_id):
         for user in self.users:
