@@ -1,7 +1,9 @@
 TODO list:
 
-NaiveDataService
-Unit test: NaiveDataService
+Implement session
+Implement CLI
+Manual testing on test directories
+Unit testing: session
 Testing script/cron job
 Documentation
 Refactor "has_required_fields" methods
