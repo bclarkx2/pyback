@@ -3,6 +3,8 @@
 # Imports                                                                    #
 ##############################################################################
 
+import itertools
+
 from client.savable import Savable, CustomSavable
 from client.savelocation import LocalSaveLocation
 from client.datalocation import SimpleDataLocation
@@ -41,7 +43,7 @@ class User(Savable):  # pragma: no cover
     def remove_save_location(self, save_location_id):
         raise NotImplementedError("Implement Me!")
 
-    def backup(self, data_locations, save_locations):
+    def backup(self):
         raise NotImplementedError("Implement Me!")
 
 
@@ -89,8 +91,9 @@ class SimpleUser(User, CustomSavable):
     # Meat
     # # # # # # # # # # # #
 
-    def backup(self, data_locations, save_locations):
-        pass
+    def backup(self):
+        for data, save in itertools.product(self.data_locations, self.save_locations):
+            save.save(data)
 
     #
     # Utility
