@@ -24,13 +24,7 @@ class DataService(object):
     def remove_user(user_id):
         raise NotImplementedError("Implement in subclass, please")
 
-    def start(self):
-        raise NotImplementedError("Implement in subclass, please")
-
     def save(self):
-        raise NotImplementedError("Implement in subclass, please")
-
-    def stop(self):
         raise NotImplementedError("Implement in subclass, please")
 
 
