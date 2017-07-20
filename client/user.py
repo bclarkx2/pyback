@@ -5,7 +5,6 @@
 
 import itertools
 
-from client.savable import Savable, CustomSavable
 from client.savelocation import LocalSaveLocation
 from client.datalocation import SimpleDataLocation
 
@@ -14,7 +13,7 @@ from client.datalocation import SimpleDataLocation
 # Base class                                                                 #
 ##############################################################################
 
-class User(Savable):  # pragma: no cover
+class User(object):  # pragma: no cover
 
     def __init__(self,
                  id,
@@ -47,7 +46,7 @@ class User(Savable):  # pragma: no cover
         raise NotImplementedError("Implement Me!")
 
 
-class SimpleUser(User, CustomSavable):
+class SimpleUser(User):
 
     def __init__(self,
                  id,
