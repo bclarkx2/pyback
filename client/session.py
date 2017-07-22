@@ -30,6 +30,11 @@ class UserSession(object):
         super(UserSession, self).__init__(data_service)
         self.user = data_service.get_user(user_id)
 
+    @staticmethod
+    def new_session(self, data_service, user):
+        data_service.add_user(user)
+        return UserSession(data_service, user.get_id())
+
     def add_save_location(self, save_location):
         raise NotImplementedError("Implement in subclass OR ELSE")
 

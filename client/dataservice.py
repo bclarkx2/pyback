@@ -12,8 +12,9 @@ import pickle
 
 class DataService(object):
     """docstring for DataService"""
-    def __init__(self):
+    def __init__(self, config_filepath):
         super(NaiveDataService, self).__init__()
+        self.config_filepath = config_filepath
 
     def get_user(self, user_id):
         raise NotImplementedError("Implement in subclass, please")
@@ -27,6 +28,14 @@ class DataService(object):
     def save(self):
         raise NotImplementedError("Implement in subclass, please")
 
+    @staticmethod
+    def from_file(self, config_filepath):
+        raise NotImplementedError("Implement in subclass, please")
+
+    @staticmethod
+    def new_data_service(self, config_filepath):
+        raise NotImplementedError("Implement in subclass, please")
+
 
 class NaiveDataService(object):
     """Naive implementation of the DataService contract
@@ -37,7 +46,6 @@ class NaiveDataService(object):
 
     def __init__(self, config_filepath):
         super(NaiveDataService, self).__init__()
-        self.config_filepath = config_filepath
 
         self.users = []
 
