@@ -57,6 +57,7 @@ class LocalSaveLocation(SaveLocation):
     @staticmethod
     def safe_copy(source_path, dest_path):
 
-        shutil.rmtree(dest_path)
+        if os.path.isdir(dest_path):
+            shutil.rmtree(dest_path)
         if(os.path.isdir(source_path)):
             shutil.copytree(source_path, dest_path)

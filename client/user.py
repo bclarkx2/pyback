@@ -4,6 +4,7 @@
 ##############################################################################
 
 import itertools
+from copy import deepcopy
 
 from client.savelocation import LocalSaveLocation
 from client.datalocation import SimpleDataLocation
@@ -104,4 +105,11 @@ class SimpleUser(User):
             attr_method = getattr(item, func_name)
             if attr_method() == remove_this_attr:
                 lst.remove(item)
+
+    def dict(self):
+        print_dict = {}
+        print_dict['id'] = self.get_id()
+        print_dict['save_locations'] = {save.get_id(): deepcopy(save.__dict__) for save in self.save_locations}
+        print_dict['data_locations'] = {data.get_id(): deepcopy(data.__dict__) for data in self.data_locations}
+        return print_dict
 

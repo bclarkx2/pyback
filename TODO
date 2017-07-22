@@ -1,7 +1,8 @@
 TODO list:
 
-Implement session
 Implement CLI
+    Stateful operation
+    Remove ID from datalocation/savelocation or make it actually unique
 Manual testing on test directories
 Unit testing: session
 Testing script/cron job

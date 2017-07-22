@@ -23,7 +23,7 @@ class Session(object):
         raise NotImplementedError("Implement this, man")
 
 
-class UserSession(object):
+class UserSession(Session):
     """Abstract base for a session intended for a single user"""
 
     def __init__(self, data_service, user_id):
@@ -51,7 +51,7 @@ class UserSession(object):
         raise NotImplementedError("Implement in subclass OR ELSE")
 
 
-class SimpleUserSession(object):
+class SimpleUserSession(UserSession):
     """straightforward session implementation for single user
 
     This class simply implements a session for a single user. It provides all

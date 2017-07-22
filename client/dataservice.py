@@ -4,6 +4,9 @@
 ###############################################################################
 
 import pickle
+import json
+
+from copy import deepcopy
 
 
 ###############################################################################
@@ -13,10 +16,13 @@ import pickle
 class DataService(object):
     """docstring for DataService"""
     def __init__(self, config_filepath):
-        super(NaiveDataService, self).__init__()
+        super(DataService, self).__init__()
         self.config_filepath = config_filepath
 
     def get_user(self, user_id):
+        raise NotImplementedError("Implement in subclass, please")
+
+    def has_user(self, user_id):
         raise NotImplementedError("Implement in subclass, please")
 
     def add_user(self, user):
@@ -37,7 +43,7 @@ class DataService(object):
         raise NotImplementedError("Implement in subclass, please")
 
 
-class NaiveDataService(object):
+class NaiveDataService(DataService):
     """Naive implementation of the DataService contract
 
     The idea here is that each function is just done haphazardly. Later, I'll
@@ -45,7 +51,7 @@ class NaiveDataService(object):
     """
 
     def __init__(self, config_filepath):
-        super(NaiveDataService, self).__init__()
+        super(NaiveDataService, self).__init__(config_filepath)
 
         self.users = []
 
@@ -54,6 +60,14 @@ class NaiveDataService(object):
             if user.get_id() == user_id:
                 return user
         raise ValueError("user with id {} not found".format(user_id))
+
+    def has_user(self, user_id):
+        try:
+            self.get_user(user_id)
+        except ValueError:
+            return False
+        else:
+            return True
 
     def add_user(self, user):
         if not self.users:
@@ -87,6 +101,12 @@ class NaiveDataService(object):
     @staticmethod
     def new_data_service(config_filepath):
         return NaiveDataService(config_filepath)
+
+    def __str__(self):
+        print_dict = deepcopy(self.__dict__)
+        print_dict['users'] = {user.get_id(): user.dict() for user in self.users}
+        return json.dumps(print_dict, indent=4, sort_keys=False)
+
 
 ###############################################################################
 # Helper functions                                                            #
