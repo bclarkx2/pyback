@@ -1,15 +1,15 @@
 TODO list:
 
 Implement CLI
-    CL data service file
-    Default data service
     Remove user
     Logout (different than quit?)
     Remove ID from datalocation/savelocation or make it actually unique
     General CLI refactor
     Some intermediary between actual CLI and session
-Manual testing on test directories
+Test with actual Elements drive
 Unit testing: session
+Create windows executable
+Implement GUI
 Testing script/cron job
 Documentation
 Sublime text unit test shortcut

@@ -82,7 +82,7 @@ class NaiveDataService(DataService):
     def remove_user(self, user_id):
         for idx, user in enumerate(self.users):
             if user.get_id() == user_id:
-                self.users.pop(idx)
+                del self.users[idx]
                 return True
         return False
 

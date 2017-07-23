@@ -149,6 +149,11 @@ class PybackShell(cmd.Cmd):
         color_user_id = colorprint.color_print(colorprint.FGRN, user_id)
         self.prompt = '(pyback[{}]) '.format(color_user_id)
 
+    def in_session_with_user_id(self, user_id):
+        in_session = self.in_exact_state(State.HAS_SESSION)
+        session_with_user = in_session and self.session.user.get_id() == user_id
+        return session_with_user
+
     #
     # Control flow commands
     # # # # # # # # # # # #
@@ -214,6 +219,24 @@ class PybackShell(cmd.Cmd):
             self.state = State.HAS_SESSION
             self.add_user_to_prompt(user_id)
             print("logged in as {}!".format(user_id))
+        else:
+            print("User {} does not exist!".format(user_id))
+
+    @MinimimRequiredState(State.HAS_SESSION)
+    def do_remove_user(self, arg):
+        user_id = self.session.user.get_id()
+        if self.data_service.has_user(user_id):
+
+            # attempt to remove user
+            user_removed = self.data_service.remove_user(user_id)
+
+            if user_removed:
+                self.prompt = '(pyback) '
+                self.state = State.HAS_DATA
+                self.session = None
+                print("Removed user {}".format(user_id))
+            else:
+                print("Failed to remove user {}".format(user_id))
         else:
             print("User {} does not exist!".format(user_id))
 
