@@ -3,13 +3,18 @@ TODO list:
 Implement CLI
     Error checking on data/save locations
     Stateful operation
+    CL data service file
+    Default data service
+    Remove user
+    Logout (different than quit?)
     Remove ID from datalocation/savelocation or make it actually unique
+    General CLI refactor
 Manual testing on test directories
 Unit testing: session
 Testing script/cron job
 Documentation
-Refactor "has_required_fields" methods
 Sublime text unit test shortcut
+
 
 
 DONE:

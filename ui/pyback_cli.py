@@ -131,14 +131,14 @@ class PybackShell(cmd.Cmd):
         name = args[0]
         data_path = os.path.expanduser(args[1])
 
-        data_location = SimpleDataLocation(id=name,
-                                           name=name,
-                                           path=data_path)
-
         try:
+            data_location = SimpleDataLocation.new_data_location(id=name,
+                                                                 name=name,
+                                                                 path=data_path)
             self.session.add_data_location(data_location)
-        except ValueError as err:
-            print(err)
+            print("Added data location {}".format(name))
+        except FileNotFoundError as err:
+            print("{}: {}".format(err, err.missing_data_path))
 
     def do_remove_data_location(self, data_location_id):
         if not self.session:
@@ -162,8 +162,13 @@ class PybackShell(cmd.Cmd):
         name = args[0]
         path = os.path.expanduser(args[1])
 
-        save_location = LocalSaveLocation(id=name, save_path=path)
-        self.session.add_save_location(save_location)
+        try:
+            save_location = LocalSaveLocation.new_save_location(id=name,
+                                                                save_path=path)
+            self.session.add_save_location(save_location)
+            print("Added save location {}".format(name))
+        except FileNotFoundError as err:
+            print("{}: {}".format(err, err.missing_save_path))
 
     def do_remove_save_location(self, save_location_id):
         if not self.session:

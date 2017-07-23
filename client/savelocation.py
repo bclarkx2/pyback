@@ -16,6 +16,10 @@ class SaveLocation(object):  # pragma: no cover
     def __init__(self, id=None):
         raise NotImplementedError("Implement Me!")
 
+    @staticmethod
+    def new_save_location(id):
+        raise NotImplementedError("Implement Me!")
+
 
 ##############################################################################
 # Implementations                                                            #
@@ -53,6 +57,16 @@ class LocalSaveLocation(SaveLocation):
     #
     # Static helpers
     # # # # # # # # # # # #
+
+    @staticmethod
+    def new_save_location(id, save_path):
+
+        if not os.path.isdir(save_path):
+            no_dir_err = FileNotFoundError("Could not find save path!")
+            no_dir_err.missing_save_path = save_path
+            raise no_dir_err
+
+        return LocalSaveLocation(id, save_path)
 
     @staticmethod
     def safe_copy(source_path, dest_path):

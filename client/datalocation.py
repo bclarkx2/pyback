@@ -3,6 +3,7 @@
 # Imports                                                                    #
 ##############################################################################
 
+import os
 
 
 ##############################################################################
@@ -21,6 +22,10 @@ class DataLocation(object):  # pragma: no cover
         raise NotImplementedError("Implement Me!")
 
     def get_path():
+        raise NotImplementedError("Implement Me!")
+
+    @staticmethod
+    def new_data_location(id, name, path):
         raise NotImplementedError("Implement Me!")
 
 
@@ -47,3 +52,13 @@ class SimpleDataLocation(DataLocation):
 
     def get_path(self):
         return self.path
+
+    @staticmethod
+    def new_data_location(id, name, path):
+
+        if not os.path.isdir(path):
+            no_dir_err = FileNotFoundError("Could not find data path!")
+            no_dir_err.missing_data_path = path
+            raise no_dir_err
+
+        return SimpleDataLocation(id, name, path)
