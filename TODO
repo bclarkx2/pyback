@@ -1,8 +1,6 @@
 TODO list:
 
 Implement CLI
-    Error checking on data/save locations
-    Stateful operation
     CL data service file
     Default data service
     Remove user
