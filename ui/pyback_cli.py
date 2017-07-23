@@ -26,6 +26,8 @@ from client.session import SimpleUserSession
 from client.datalocation import SimpleDataLocation
 from client.savelocation import LocalSaveLocation
 
+from ui import colorprint
+
 from enum import Enum
 
 ###############################################################################
@@ -143,6 +145,14 @@ class PybackShell(cmd.Cmd):
         self.session = None
 
     #
+    # Helpers
+    # # # # # # # # # # # #
+
+    def add_user_to_prompt(self, user_id):
+        color_user_id = colorprint.color_print(colorprint.FGRN, user_id)
+        self.prompt = '(pyback[{}]) '.format(color_user_id)
+
+    #
     # Control flow commands
     # # # # # # # # # # # #
 
@@ -203,7 +213,7 @@ class PybackShell(cmd.Cmd):
         if self.data_service.has_user(user_id):
             self.session = SimpleUserSession(self.data_service, user_id)
             self.state = State.HAS_SESSION
-            self.prompt = '(pyback[{}]) '.format(user_id)
+            self.add_user_to_prompt(user_id)
             print("logged in as {}!".format(user_id))
         else:
             print("User {} does not exist!".format(user_id))

@@ -7,6 +7,7 @@ Implement CLI
     Logout (different than quit?)
     Remove ID from datalocation/savelocation or make it actually unique
     General CLI refactor
+    Some intermediary between actual CLI and session
 Manual testing on test directories
 Unit testing: session
 Testing script/cron job
