@@ -149,6 +149,11 @@ class PybackShell(cmd.Cmd):
         color_user_id = colorprint.color_print(colorprint.FGRN, user_id)
         self.prompt = '(pyback[{}]) '.format(color_user_id)
 
+    def logout(self):
+        self.prompt = '(pyback) '
+        self.state = State.HAS_DATA
+        self.session = None
+
     def in_session_with_user_id(self, user_id):
         in_session = self.in_exact_state(State.HAS_SESSION)
         session_with_user = in_session and self.session.user.get_id() == user_id
@@ -171,6 +176,9 @@ class PybackShell(cmd.Cmd):
             print("saving session!")
             self.session.save()
         sys.exit(0)
+
+    def do_q(self, arg):
+        self.do_quit(arg)
 
     #
     # Data service commands
@@ -223,17 +231,18 @@ class PybackShell(cmd.Cmd):
             print("User {} does not exist!".format(user_id))
 
     @MinimimRequiredState(State.HAS_SESSION)
+    def do_logout(self, arg):
+        self.logout()
+
+    @MinimimRequiredState(State.HAS_SESSION)
     def do_remove_user(self, arg):
         user_id = self.session.user.get_id()
         if self.data_service.has_user(user_id):
 
-            # attempt to remove user
             user_removed = self.data_service.remove_user(user_id)
 
             if user_removed:
-                self.prompt = '(pyback) '
-                self.state = State.HAS_DATA
-                self.session = None
+                self.logout()
                 print("Removed user {}".format(user_id))
             else:
                 print("Failed to remove user {}".format(user_id))

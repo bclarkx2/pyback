@@ -1,7 +1,6 @@
 TODO list:
 
 Implement CLI
-    Remove user
     Logout (different than quit?)
     Remove ID from datalocation/savelocation or make it actually unique
     General CLI refactor
