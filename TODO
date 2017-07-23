@@ -1,7 +1,6 @@
 TODO list:
 
 Implement CLI
-    Logout (different than quit?)
     Remove ID from datalocation/savelocation or make it actually unique
     General CLI refactor
     Some intermediary between actual CLI and session
@@ -9,6 +8,7 @@ Test with actual Elements drive
 Unit testing: session
 Create windows executable
 Implement GUI
+Implement RemoteSaveLocation
 Testing script/cron job
 Documentation
 Sublime text unit test shortcut
