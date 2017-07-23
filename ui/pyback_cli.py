@@ -7,11 +7,8 @@
 import cmd
 import sys
 import os
-import shutil
 import pickle
-import json
-
-from copy import deepcopy
+import argparse
 
 current_file = os.path.abspath(__file__)
 current_dir = os.path.dirname(current_file)
@@ -135,7 +132,7 @@ class MinimimRequiredState(RequiredState):
 class PybackShell(cmd.Cmd):
     """CLI interface for pyback program"""
 
-    intro = "Welcome to pyback! Enter your user ID to begin:"
+    intro = "Welcome to pyback!"
     prompt = '(pyback) '
 
     def __init__(self):
@@ -174,18 +171,20 @@ class PybackShell(cmd.Cmd):
     # Data service commands
     # # # # # # # # # # # # #
 
-    def do_new_data_service(self, config_filepath):
+    @ExactRequiredState(State.UNINITIALIZED)
+    def do_new_config_file(self, config_filepath):
         '''start a new data service'''
-        print("starting new data_service at {}".format(config_filepath))
+        print("starting new data service at {}".format(config_filepath))
         self.data_service = start_new_data_service(config_filepath)
         self.state = State.HAS_DATA
 
-    def do_select_data_service(self, config_filepath):
+    @ExactRequiredState(State.UNINITIALIZED)
+    def do_select_config_file(self, config_filepath):
         '''select an existing data service'''
         try:
             self.data_service = select_data_service(config_filepath)
             self.state = State.HAS_DATA
-            print("selected data service!")
+            print("selected config file {}".format(config_filepath))
         except ValueError as err:
             print(err)
 
@@ -310,5 +309,36 @@ def select_data_service(config_filepath):
 # Main script                                                                 #
 ###############################################################################
 
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-c", "--config-file",
+                        help="Config file for data service")
+    parser.add_argument("-l", "--login",
+                        help="Log on with a user id right away",
+                        metavar="USER_ID")
+    return parser.parse_args()
+
+
+def main():
+
+    args = get_args()
+
+    shell = PybackShell()
+
+    if args.config_file:
+        shell.do_select_config_file(args.config_file)
+        if args.login and shell.state == State.HAS_DATA:
+            shell.do_login(args.login)
+
+    if shell.state == State.UNINITIALIZED:
+        shell.intro = "Welcome to pyback! Select a config file to get started."
+    elif shell.state == State.HAS_DATA:
+        shell.intro = "Welcome to pyback! Login with your user id to get started."
+    else:
+        shell.intro = "Welcome to pyback!"
+
+    shell.cmdloop()
+
+
 if __name__ == '__main__':
-    PybackShell().cmdloop()
+    main()
