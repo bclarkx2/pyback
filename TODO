@@ -1,6 +1,7 @@
 TODO list:
 
 Implement CLI
+    Error checking on data/save locations
     Stateful operation
     Remove ID from datalocation/savelocation or make it actually unique
 Manual testing on test directories
